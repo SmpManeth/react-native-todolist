@@ -18,7 +18,16 @@ export default function App() {
   ]);
 
   function renderTodoList() {
-    return todoList.map((todo) => <CardTodo key={todo.id} todo={todo} />);
+    return todoList.map((todo) => <CardTodo onPress={updateTodo} key={todo.id} todo={todo} />);
+  }
+
+  function updateTodo(todo){
+    const updatedTodo = {
+      ...todo , isCompleted: !todo.isCompleted
+    };
+    setTodoList(
+      todoList.map((item) => (item.id === todo.id ? updatedTodo : item))
+    );
   }
 
   return (
