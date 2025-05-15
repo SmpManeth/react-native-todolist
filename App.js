@@ -1,16 +1,24 @@
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { styles } from "./App.style";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Header } from "./components/Header/Header";
 import { CardTodo } from "./components/CardTodo/CardTodo";
-
-const TODO_LIST = [
-  { id: 1, title: "Todo 1", isCompleted: true },
-  { id: 2, title: "Todo 2", isCompleted: false },
-  { id: 3, title: "Todo 3", isCompleted: false },
-];
+import { useState } from "react";
 
 export default function App() {
+  const [todoList, setTodoList] = useState([
+  
+      { id: 1, title: "Todo 1", isCompleted: true },
+      { id: 2, title: "Todo 2", isCompleted: false },
+      { id: 3, title: "Todo 3", isCompleted: false },
+      { id: 4, title: "Todo 4", isCompleted: true },
+      { id: 5, title: "Todo 5", isCompleted: false },
+      { id: 6, title: "Todo 6", isCompleted: true },
+      { id: 7, title: "Todo 7", isCompleted: false },
+      { id: 8, title: "Todo 8", isCompleted: true },
+  
+  ]);
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.app}>
@@ -18,9 +26,11 @@ export default function App() {
           <Header />
         </View>
         <View style={styles.body}>
-          {TODO_LIST.map((todo) => (
-            <CardTodo key={todo.id} todo={todo} />
-          ))}
+          <ScrollView>
+            {todoList.map((todo) => (
+              <CardTodo key={todo.id} todo={todo} />
+            ))}
+          </ScrollView>
         </View>
         <View style={styles.footer}>
           <Text style={styles.text}>Footer</Text>
