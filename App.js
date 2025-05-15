@@ -4,6 +4,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Header } from "./components/Header/Header";
 import { CardTodo } from "./components/CardTodo/CardTodo";
 import { useState } from "react";
+import { TabBottomMenu } from "./components/TabBottomMenu/TabBottomMenu";
 
 export default function App() {
   const [todoList, setTodoList] = useState([
@@ -40,7 +41,7 @@ export default function App() {
           <ScrollView>{renderTodoList()}</ScrollView>
         </View>
         <View style={styles.footer}>
-          <Text style={styles.text}>Footer</Text>
+         <TabBottomMenu />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
