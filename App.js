@@ -18,7 +18,9 @@ export default function App() {
           <Header />
         </View>
         <View style={styles.body}>
-          <CardTodo todo={TODO_LIST[0]} />
+          {TODO_LIST.map((todo) => (
+            <CardTodo key={todo.id} todo={todo} />
+          ))}
         </View>
         <View style={styles.footer}>
           <Text style={styles.text}>Footer</Text>
