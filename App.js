@@ -12,6 +12,7 @@ export default function App() {
   const [slelectedTabName, setSelectedTabName] = useState("all");
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [todoList, setTodoList] = useState([]);
+  const [todoTitle, setTodoTitle] = useState("");
 
   function getFileteredTodoList() {
     if (slelectedTabName === "all") {
@@ -73,15 +74,28 @@ export default function App() {
       >
         <Dialog.Title>Add Todo</Dialog.Title>
         <Dialog.Description>Choose a Name to Your Todo</Dialog.Description>
-        <Dialog.Input placeholder="Todo Title" />
-        <Dialog.Button label="Cancel" color="grey" onPress={() => {setShowAddDialog(false)}} />
-        <Dialog.Button label="Save" onPress={() => {}} />
+        <Dialog.Input onChangeText={setTodoTitle} placeholder="Todo Title" />
+        <Dialog.Button
+          label="Cancel"
+          color="grey"
+          onPress={() => {
+            setShowAddDialog(false);
+          }}
+        />
+        <Dialog.Button disabled={todoTitle.length === 0}  label="Save" onPress={() => {addTodo()}} />
       </Dialog.Container>
     );
   }
 
-  function showAddTodoDialog() {
-    setShowAddDialog(true);
+  function addTodo() {
+    const newTodo = {
+      id: Math.random().toString(),
+      title: todoTitle,
+      isCompleted: false,
+    };
+    setTodoList([...todoList, newTodo]);
+    setShowAddDialog(false);
+    setTodoTitle("");
   }
 
   return (
@@ -95,7 +109,7 @@ export default function App() {
             <ScrollView>{renderTodoList()}</ScrollView>
           </View>
 
-          <ButtonAdd onPress={showAddTodoDialog} />
+          <ButtonAdd onPress={() => setShowAddDialog(true)} />
 
           <View style={styles.footer}>
             <TabBottomMenu
