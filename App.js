@@ -7,6 +7,9 @@ import { useState } from "react";
 import { TabBottomMenu } from "./components/TabBottomMenu/TabBottomMenu";
 
 export default function App() {
+
+  const [slelectedTabName, setSelectedTabName] = useState("all");
+
   const [todoList, setTodoList] = useState([
     { id: 1, title: "Todo 1", isCompleted: true },
     { id: 2, title: "Todo 2", isCompleted: false },
@@ -18,8 +21,19 @@ export default function App() {
     { id: 8, title: "Todo 8", isCompleted: true },
   ]);
 
+  
+  function getFileteredTodoList() {
+    if (slelectedTabName === "all") {
+      return todoList;
+    } else if (slelectedTabName === "in-progress") {
+      return todoList.filter((todo) => !todo.isCompleted);
+    } else if (slelectedTabName === "done") {
+      return todoList.filter((todo) => todo.isCompleted);
+    }
+  }
+
   function renderTodoList() {
-    return todoList.map((todo) => <CardTodo onPress={updateTodo} key={todo.id} todo={todo} />);
+    return getFileteredTodoList().map((todo) => <CardTodo onPress={updateTodo} key={todo.id} todo={todo} />);
   }
 
   function updateTodo(todo){
@@ -41,7 +55,7 @@ export default function App() {
           <ScrollView>{renderTodoList()}</ScrollView>
         </View>
         <View style={styles.footer}>
-         <TabBottomMenu />
+         <TabBottomMenu todoList={todoList} onPress={setSelectedTabName} slelectedTabName={slelectedTabName} />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
