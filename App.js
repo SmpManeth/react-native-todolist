@@ -57,6 +57,7 @@ export default function App() {
         },
         {
           text: "OK",
+          style: "destructive",
           onPress: () => {
             setTodoList(todoList.filter((item) => item.id !== todo.id));
           },
