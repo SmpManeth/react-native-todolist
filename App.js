@@ -5,6 +5,7 @@ import { Header } from "./components/Header/Header";
 import { CardTodo } from "./components/CardTodo/CardTodo";
 import { useState } from "react";
 import { TabBottomMenu } from "./components/TabBottomMenu/TabBottomMenu";
+import { ButtonAdd } from "./components/ButtonAdd/ButtonAdd";
 
 export default function App() {
 
@@ -75,6 +76,7 @@ export default function App() {
         <View style={styles.body}>
           <ScrollView>{renderTodoList()}</ScrollView>
         </View>
+        <ButtonAdd />
         <View style={styles.footer}>
          <TabBottomMenu todoList={todoList} onPress={setSelectedTabName} slelectedTabName={slelectedTabName} />
         </View>
