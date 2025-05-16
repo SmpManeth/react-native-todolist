@@ -7,12 +7,23 @@ import { useState } from "react";
 import { TabBottomMenu } from "./components/TabBottomMenu/TabBottomMenu";
 import { ButtonAdd } from "./components/ButtonAdd/ButtonAdd";
 import Dialog from "react-native-dialog";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
   const [slelectedTabName, setSelectedTabName] = useState("all");
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [todoList, setTodoList] = useState([]);
   const [todoTitle, setTodoTitle] = useState("");
+
+  async function loadTodoList() {
+    console.log("loadTodoList");
+  }
+
+  async function saveTodoList() {
+    console.log("saveTodoList");
+    try {
+    } catch (err) {}
+  }
 
   function getFileteredTodoList() {
     if (slelectedTabName === "all") {
@@ -82,7 +93,13 @@ export default function App() {
             setShowAddDialog(false);
           }}
         />
-        <Dialog.Button disabled={todoTitle.length === 0}  label="Save" onPress={() => {addTodo()}} />
+        <Dialog.Button
+          disabled={todoTitle.length === 0}
+          label="Save"
+          onPress={() => {
+            addTodo();
+          }}
+        />
       </Dialog.Container>
     );
   }
