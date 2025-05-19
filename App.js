@@ -3,26 +3,72 @@ import { styles } from "./App.style";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Header } from "./components/Header/Header";
 import { CardTodo } from "./components/CardTodo/CardTodo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TabBottomMenu } from "./components/TabBottomMenu/TabBottomMenu";
 import { ButtonAdd } from "./components/ButtonAdd/ButtonAdd";
 import Dialog from "react-native-dialog";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
+  let isFirstLaunch = true;
+  let isLoadUpdate = false;
   const [slelectedTabName, setSelectedTabName] = useState("all");
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const [todoList, setTodoList] = useState([]);
+  const [todoList, setTodoList] = useState([
+    {
+      id: Math.random().toString(),
+      title: "Todo 1",
+      isCompleted: false,
+    },
+    {
+      id: Math.random().toString(),
+      title: "Todo 2",
+      isCompleted: true,
+    },
+    {
+      id: Math.random().toString(),
+      title: "Todo 3",
+      isCompleted: false,
+    },
+  ]);
   const [todoTitle, setTodoTitle] = useState("");
+
+  useEffect(() => {
+    loadTodoList();
+  },[]);
+
+  useEffect(() => {
+    if (isFirstLaunch) {
+      if (!isFirstLaunch) {
+        saveTodoList();
+      } else {
+        isFirstLaunch = false;
+      }
+    }else{
+      isLoadUpdate = false;
+    }
+  }, [todoList]);
 
   async function loadTodoList() {
     console.log("loadTodoList");
+    try {
+      const todoListString = await AsyncStorage.getItem("@todoList");
+      if (todoListString) {
+        const todoList = JSON.parse(todoListString);
+        setTodoList(todoList);
+      }
+    } catch (err) {
+      alert(err);
+    }
   }
 
   async function saveTodoList() {
     console.log("saveTodoList");
     try {
-    } catch (err) {}
+      await AsyncStorage.setItem("@todoList", JSON.stringify(todoList));
+    } catch (err) {
+      alert(err);
+    }
   }
 
   function getFileteredTodoList() {
